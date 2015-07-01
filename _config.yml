@@ -1,4 +1,4 @@
-name: Litchiware's blog
+name: 荔枝味儿的博客
 description: 荔枝味儿的博客
 meta_description: "Your New Jekyll Site, Blogging about stuffs"
 
@@ -16,7 +16,7 @@ disqus_shortname: 'your-disqus-shortname'
 # Details for the RSS feed generator
 url:            'http://litchiware.github.io'
 author:         'Litchiware'
-authorTwitter:  'YourTwitterUsername'
+authorTwitter:  'Litchiware'
 
 permalink:       /:year/:title/
 
