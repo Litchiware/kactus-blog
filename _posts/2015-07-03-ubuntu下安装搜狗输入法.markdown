@@ -1,0 +1,34 @@
+---
+layout: post
+title: "ubuntu下安装搜狗输入法"
+description: install sogou input method on ubuntu
+categories: 软件安装
+published: true
+---
+
+系统装的是英文版的vivid
+
+## 安装fcitx
+
+~~~ bash
+	sudo add-apt-repository ppa:fcitx-team/nightly
+	sudo apt-get install fcitx
+~~~
+
+##安装搜狗输入法
+
+搜狗输入法的deb包可以在搜狗官网下到
+
+~~~ bash
+	sudo dpkg -i sogoupinyin_1.2.0.0056_amd64.deb
+~~~
+
+##为系统安装中文支持
+
+system settings-->language support-->install/remove laguages-->check simplified chinese-->apply changes
+在install/remove languages下面是keyboard input method system，选择fcitx
+这一步安装好之后，重启电脑
+
+## 添加输入法
+
+重启之后可以看到桌面右上角已经显示了fctix输入法，点击之后进入设置界面，在下方输入法查找栏里输入sogou之后就能看到搜狗输入法了，点击添加即可（注意取消勾选“只显示当前语言的输入法”，否则列表中只显示了英语的输入法）。

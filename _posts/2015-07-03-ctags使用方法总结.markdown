@@ -1,0 +1,74 @@
+---
+layout: post
+title: "Ctags使用方法总结"
+description: use ctags for navigating large source code projects
+categories: 工具
+published: true
+---
+
+##安装ctags
+
+在ubuntu下，运行以下命令安装ctags
+
+~~~ bash
+sudo apt-get install ctags
+~~~
+
+##生成tags文件
+
+~~~ bash
+ctags file1 file2 
+~~~
+
+##预览tag定义
+
+~~~ vimscript
+:ptag sometag
+~~~
+
+该命令会打开一个预览窗口，显示sometag定义位置的代码，运行`:pclose`或`:pc`可以将其关闭
+
+##转到定义
+
+快捷键`ctrl-]`可以跳转到光标下的关键词所在定义处，`ctrl-t`可以返回上一个tag的定义位置，`:tag`命令可以跳转到下一个tag的定义位置；vim为我们缓存了一个跳转的tag列表，输入命令`:tags`可以查看该列表，以及当前光标所在tag
+
+##自动补全
+
+由于vim的insert模式下`ctrl-n`快捷键所支持的补全默认是包括tags文件中的关键词的，因此，为项目维护一个tags文件也有助于加强自动补全功能
+
+##维护tags文件
+
+下面的命令能够在项目跟目录下为整个项目中的所有文件生成一份tags列表
+
+~~~ bash
+ctags -R
+~~~
+
+也可以用--exclude选项排除某些特定文件，如.git目录
+
+~~~ bash
+ctags -R --exlulude=.git
+~~~
+
+##Ctags for Python
+
+在python项目中，使用ctags时有许多需要注意的地方：
+
+###python-kinds选项
+
+默认情况下，ctags会将python中的import语句也作为一处定义，因此在每次想要跳转到一个从其他文件import的函数或类的时候，vim会让我们选择一处定义，在生成tags文件的时候加上以下选项：
+
+~~~ bash
+python-kinds=-i
+~~~
+
+另外，我们可以使用--list-kinds选项查看ctags所关注的关键词
+
+~~~ bash
+src$ ctags --list-kinds=python
+c  classes
+f  functions
+m  class members
+v  variables
+i  imports [off]
+~~~
