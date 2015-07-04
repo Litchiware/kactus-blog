@@ -1,0 +1,611 @@
+---
+layout: post
+title: "Python常用技巧总结"
+description: some common skills in Python
+categories: 编程语言
+published: true
+---
+
+##Python2中使用unicode字符串
+
+要在Python2中使用unicode编码格式的字符串，比如中文字符串，需要注意以下两个问题
+
+####在文件开头添加 #-\*- coding:utf-8 -\*-
+
+这句声明的作用是告诉Python，该源文件是按utf-8编码格式存储的，Python2中的默认编码格式是ASCII，Python3中是utf-8，这仅仅影响编译器按照怎样的编码格式来读取Python文件
+
+####在字符串前面加上u
+
+比如u'Hello world'表示unicode编码格式的字符串。这种方式可以告诉Python编译器该字符串是unicode编码格式的
+
+##字典的值为列表时，计算字典中的最大值
+
+现有如下的字典
+
+~~~python
+d = {'a':[1000,18], 'b':[3000,2], 'c': [100,10]}
+~~~
+
+需要在字典中计算列表第一个元素最大的健值对，代码如下
+
+~~~python
+import operator
+max(d.iteritems(),key=operator.itemgetter(1))
+~~~
+
+结果如下：
+
+~~~python
+('b', [3000, 2])
+~~~
+
+##元组类型转换为字典类型
+
+有如下元组
+
+~~~python
+('x',1)
+~~~
+
+需要转换为字典类型
+
+~~~python
+{'x':1}
+~~~
+
+转换代码如下：
+
+~~~python
+dict([('x',1)])
+~~~
+
+##函数作为参数传递
+
+有时候需要将一个函数作为另一个函数的参数进行传递，从而使程序具有更高的可扩展性，下面是一个说明这种用法的例子
+
+~~~python
+def perform(fun, *args):
+    fun(*args)
+def f(*args):
+    for arg in args:
+	    print(arg)
+perform(f,'Hello','World')
+~~~
+
+上面代码的执行结果如下
+
+~~~python
+Hello
+World
+~~~
+
+##计算一个集合的幂集
+
+幂集是一个集合的所有子集组成的集合，在Python中可以通过下面的方式计算一个集合（可以是由set、list或tuple等类型表示的）的幂集
+
+~~~python
+from itertools import chain, combinations
+s=('a','b','c')
+list(chain.from_iterable(combinations(s,n) for n in range(len(s)+1)))
+~~~
+
+返回结果如下
+
+~~~python
+[(),
+ ('a',),
+ ('b',),
+ ('c',),
+ ('a', 'b'),
+ ('a', 'c'),
+ ('b', 'c'),
+ ('a', 'b', 'c')]
+~~~
+
+## 使用exec函数易错语法问题
+
+Python中，可以用exec()函数执行字符串表示的语句，在某些情况下使用起来非常灵活，可以简化代码；在使用过程中经常会出现类似下面的错误
+
+~~~python
+SyntaxError: unqualified exec is not allowed in function 'test' it contains a nested function with free variables
+~~~
+
+对于该错误，官方docs中给出的解释如下
+
+> If exec is used in a function and the function contains a nested block with free variables, the compiler will raise a SyntaxError unless the exec explicitly specifies the local namespace for the exec. (In other words, "exec obj" would be illegal, but "exec obj in ns" would be legal.)
+
+也就是说在exec语句处在一个嵌套的结构中就会出现语法错误，比如exec语句出现在嵌套的函数中
+
+~~~python
+def test():
+    exec("print('Hello World!')")
+    def subfunc():
+        return 'subfunc'
+~~~
+
+### 解决方式
+
+在exec后面加上`in globals(), locals()`，为exec语句指明名字空间，例如，可以将上面的代码修改为如下所示
+
+~~~python
+def test():
+    exec("print('Hello World!')") in globals(), locals()
+    def subfunc():
+        return 'subfunc'
+~~~
+
+##格式化字符串函数
+
+
+字符串的格式设置函数有string.center(n, ch)，string.ljust(n, ch)，string.rjust(n, ch)，s.format(vars)等
+
+### 用法说明
+
+以string.rjust(n, ch)为例说明字符串格式设置函数的用法：该函数的作用是返回一个长度为n的字符串，如果string长度小于n，那么在string的左边用字符ch来补全
+
+### 代码举例
+
+下面是在python3下用函数string.rjust(n, ch)编写的一段代码，功能是输出乘法表：
+
+~~~python
+for i in range(1, 10):
+    for j in range(1, 10):
+        if j >= i:
+            prod = i * j
+            string = str(i) + '*' + str(j) + '=' + str(prod)
+            print(string.rjust(8, ' '), end = '')
+        else:
+            print(' ' * 8, end = '')
+    print()
+~~~
+
+运行效果如下（python2中会报错，因为python2中不支持print函数的以上用法）：
+
+![Alt Text](/resources/images/multiply_table.png)
+
+##math库函数与numpy库中数据类型的兼容问题
+
+在使用numpy中的array、matrix等数据类型的时，出现了下面的错误
+
+~~~python
+TypeError: only length-1 arrays can be converted to Python scalars
+~~~
+
+###错误原因
+
+在python文件中同时导入了math库和numpy库中的数学函数，而math库中的函数不兼容numpy中的数据类型，因此报错，如下所示：
+
+~~~python
+from math import *
+from numpy import *
+~~~
+
+###解决方法
+
+删除`from math import *`即可
+
+##列表作为函数参数传递
+
+在Python中，list类型的变量作为函数参数传递时，是引用传递方式，也就是说如果在函数中修改了参数值，那么函数外面被传入的相应变量也会同步改变，例如定义如下的函数：
+
+~~~python
+def a(b):
+    b[0]=1
+~~~
+
+测试效果如下：
+
+~~~python
+>>> c=[0]
+>>> a(c)
+>>> c
+[1]
+~~~
+
+上面是一个一维列表的例子，二维列表也是一样， 定义如下函数
+
+~~~python
+def a(b):
+    b[0][0]=1
+~~~
+
+测试效果如下：
+
+~~~python
+>>> c=[[0]]
+>>> a(c)
+>>> c
+[[1]]
+~~~
+
+但是需要注意一点，如果是下面这种情况，函数外面被传入的变量值不会发生改变
+
+~~~python
+def a(b):
+    b=[[0]]
+~~~
+
+测试效果如下：
+
+~~~python
+>>> c=[[1]]
+>>> a(c)
+>>> c
+[[1]]
+~~~
+
+在这种情况下，函数内部并没有使用传入的列表引用，也就没有操作相应地址处的值；相当于重新定了一个变量，将这个新的变量命名为b，因此函数外面的变量c并没有发生变化
+
+##字典排序
+
+在python中，可以通过以下语句对字典变量按值从大到小排序
+
+~~~python
+import operator
+sortedDic=sorted(dic.items(), key = operator.itemgetter(1), reverse= True)
+~~~
+
+##Python函数中参数定义及传递过程
+
+### Python中函数参数定义的方式
+
+####F(arg1,arg2,...)
+
+这是最常见的定义方式，一个函数可以定义任意个数的参数，各参数间用逗号分隔；在调用的时候需要提供相同个数的值，而且顺序必须相同，例如：
+
+~~~python
+def add(a,b):
+    return a+b
+~~~
+
+测试效果如下：
+
+~~~python
+>>> add(1,2)
+3
+>>> add(b=2,a=1)
+3
+~~~
+
+####F(arg1,arg2=value2,...)
+
+这种方式提供了默认值，但是没提供默认值的参数必须在所有提供了默认值的参数的前面，例如：
+
+~~~python
+def add(a,b=1):
+    return a+b
+~~~
+
+测试效果如下：
+
+~~~python
+>>> add(1,2)
+>>> 3
+>>>  add(1)
+2
+~~~
+
+####F(*arg1)
+
+上面两个方式形参个数要求与实参个数相等，但有时候不确定有多少个参数，此时可以在形参名前加上*，表示函数的参数数目不定。这种情况下，传入的参数在函数内部被存放在以参数名为标识符的tuple中
+
+~~~python
+def a(*x):
+    if len(x)==0:
+        print('None')
+    else:
+        print(x)
+~~~
+
+测试效果如下
+
+~~~python
+>>> a()
+None
+>>> a(1)
+(1,)
+>>> a(1,2,3)
+(1, 2, 3)
+~~~
+
+####F(**arg1)
+
+参数前加两个*表示传入的参数在函数内部将被存放在标识符为arg1的dictionary中，这种情况下函数调用的方法需采用arg1=value1, arg2=value2的形式
+
+~~~python
+def a(**x):
+    if len(x)==0:
+        print('None')
+    else:
+        print(x)
+~~~
+
+测试效果如下
+
+~~~python
+>>> a()
+None
+>>> a(x=1,y=2)
+{'y': 2, 'x': 1}
+~~~
+
+### Python中函数参数的解析过程
+
+定义一个如下所示的函数
+
+~~~python
+def test(a,b=1,*c,**d):
+    print(a,b,c,d)
+~~~
+
+传入参数的解析过程如下：先解析a，然后解析b，再解析c，也就是把c赋值为多出来的arg这种形式的参数组成的tuple，最后把剩下的key=value这种形式的参数组成一个dictionary传给d，测试效果如下
+
+~~~python
+>>> test(1)
+(1, 1, (), {})
+>>> test(1,2)
+(1, 2, (), {})
+>>> test(1,2,3)
+(1, 2, (3,), {})
+>>> test(1,2,3,4)
+(1, 2, (3, 4), {})
+>>> test(1,2,3,4,name='Tom')
+(1, 2, (3, 4), {'name': 'Tom'})
+>>> test(a=1,b=2)
+(1, 2, (), {})
+>>> test(1,c=2)
+(1, 1, (), {'c': 2})
+~~~
+
+##定义二维数组容易犯的一个错误
+
+在python中，可以通过以下方式定义并初始化一个二维数组
+
+~~~python
+>>> arr=[[0,0]]*3
+>>> arr
+[[0, 0], [0, 0], [0, 0]]
+~~~
+
+下面我们尝试修改arr中的元素
+
+~~~python
+>>> arr[0][0]=1
+>>> arr
+[[1, 0], [1, 0], [1, 0]]
+~~~
+
+很明显，当我们给arr[0][0]赋值时，arr[1][0]、arr[2][0]也随之更改了；这是因为列表arr中包含的三个子列表指向的是同一个列表实例，所以arr中的三个元素是同步变化的。可以通过调用id()来查看object的内存地址来验证上面的结论
+
+~~~python
+>>> id(arr[0])
+29960240
+>>> id(arr[1])
+29960240
+>>> id(arr[2])
+29960240
+~~~
+
+下面的代码生成的列表可以达到我们预期的目标
+
+~~~python
+result = []
+for i in range(3):
+    result.append(list([0,0]))
+~~~
+
+##特性装饰器在Python2和Python3中的不同表现
+
+
+定义一个简单的类Person，其中对属性name和age分别使用了特性装饰器，代码如下：
+
+~~~python
+class Person:
+    """Class to represent a person"""
+    @property
+    def age(self):
+        return self._age
+    @age.setter
+    def age(self, age):
+        if 0 < age <= 150:
+            self._age = age
+    def __init__(self, name = '', age = 0):
+        """Constructor"""
+        self._age = age
+        self._name = name
+
+    def __str__(self):
+        return	 "Person('%s',%s)" % (self._name, self._age)
+
+    def __repr__(self):
+        return str(self)
+~~~
+
+在python2环境下运行，效果如下
+
+~~~python
+>>> from person import Person
+>>> p=Person('Bob',10)
+>>> p
+Person('Bob',10)
+>>> p.age=20
+>>> p
+Person('Bob',10)
+~~~
+
+很显然，age=20的赋值操作没有起作用，说明定义的特性装饰器对python2无效。但是在python3下，特性装饰器是可以很好运行的
+
+~~~python
+>>> from person import Person
+>>> p=Person('Bob',10)
+>>> p
+Person('Bob',10)
+>>> p.age=20
+>>> p
+Person('Bob',20)
+~~~
+
+## Python整数打印格式控制
+
+使用print函数打印整数时，可以用下面的方式控制整数位数
+
+~~~python
+>>> a=5
+>>> print('%4d' %a)
+   5
+>>> print('%04d' %a)
+0005
+>>> print('% 4d' %a)
+   5
+~~~
+
+上面的过程也可以通过格式化字符串来实现
+
+~~~python
+>>> print('{0:04}'.format(a))
+0005
+>>> print('{0:04d}'.format(a))
+0005
+~~~
+
+##字符串转整型
+
+python中将字符串转为整型时，如果字符串本身不表示数值，那么程序会抛出异常（即使字符串表示的是浮点数也不能直接转换），举例如下：
+
+~~~python
+>>> int('2w')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '2w'
+>>> int('.2')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '.2'
+>>> int('2')
+2
+~~~
+
+另外，int将字符串转为整型时，还可以指定基数，例如
+
+~~~python
+>>> int('1001101',2)
+77
+>>> int(1001101,2)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: int() can't convert non-string with explicit base
+>>> int(1001101)
+1001101
+~~~
+
+可以使用int(float(string))将表示数值的字符串统一转为整型，避免在string表示浮点数时抛出异常，例如
+
+~~~python
+>>> int(float('-1.0'))
+-1
+>>> int(float('-1'))
+-1
+>>> int('-1')
+-1
+>>> int('-1.0')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '-1.0'
+~~~
+
+## Python字符串切片负数索引
+
+### 举例说明
+
+先看一个字符串切片负数索引的例子
+
+~~~python
+>>> food='apple pie'
+>>> food[-9:-4]
+'apple'
+>>> food[:-4]
+'apple'
+>>> food[-3:0]
+''
+>>> food[-3:1]
+''
+>>> food[1:-2]
+'pple p'
+>>> food[-10:1]
+'a'
+>>> food[0:20]
+'apple pie'
+~~~
+
+### 规律总结
+
+- string[m: n]的计算过程如下：先找到索引为n-1的字符，然后向左直到索引为m的字符，作为切片的返回值
+- 如果n=0或者n-1表示的字符在m表示的字符的左边，那么切片将返回空字符串
+- 即使索引超出范围，也不会报错，将返回指定索引范围内的最长切片
+
+## Python中重新加载模块的方法
+
+### 使用sys.modules.pop()的方法
+
+通过import xxx加载xxx.py文件后，如果修改了xxx.py文件，需要重新加载，那么在重新加载之前需要从字典变量sys.modules中将xxx包删除。
+
+~~~ python
+import sys
+sys.modules.pop('xxx')
+import xxx
+~~~
+
+### 使用reload()函数的方法
+
+该方法在python2和python3中的使用方法有所不同，在python2中，通过以下方式调用reload函数
+
+~~~python
+reload(xxx)
+~~~
+
+但是在python3中，reload函数被定义在了imp包下
+
+~~~python
+import imp
+imp.reload(xxx)
+~~~
+
+### 注意事项
+
+在向xxx.py文件中添加一些代码之后重新加载，使用两种方法的效果是一样的，但是如果在import xxx之后又删除了xxx.py中的一些东西，两种方法的效果就不一样了，例如：
+
+####第一个版本的funcs.py
+
+~~~ python
+def fun1():
+    print('hello, fun 1')
+    
+def fun2():
+    print('hello, fun 2')   
+~~~
+
+在python解释器或者ipython下运行以下命令
+
+~~~python
+import funcs
+funcs.fun1()
+funcs.fun2()
+~~~
+
+可以看到，fun1()和fun2()函数都正常执行了，此时删除funcs.py文件中fun2定义，得到：
+
+####修改之后的funcs.py
+
+~~~python
+def fun1():
+    print('hello, fun 1')
+~~~
+
+此时，运行以下命令
+
+~~~python
+reload(funcs)
+funcs.fun2()
+~~~
+
+可以看到fun2函数仍然能够正常执行，并输出hello, fun 2，也就是说reload(funcs)并没有从当前解释环境中真正删去func2的定义。相反，如果我们使用第一种方法重新加载funcs的话就没有上述问题存在。因此，推荐使用第一种方法重新加载模块

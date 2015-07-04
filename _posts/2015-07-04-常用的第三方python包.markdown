@@ -1,0 +1,13 @@
+---
+layout: post
+title: "常用的第三方Python包"
+description: common third-party packages of Python
+categories: 编程语言
+published: true
+---
+
+## feedparser
+
+使用feedparser包提供的功能可以读取rss源,可以参考下面的官方文档
+
+>[feedparser documentation](http://pythonhosted.org/feedparser/)

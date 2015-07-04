@@ -1,0 +1,34 @@
+---
+layout: post
+title: "Python中的信号处理函数"
+description: signal processing with python
+categories: 编程语言
+published: true
+---
+
+
+##平滑信号
+
+函数[scipy.signal.savgol_filter()](http://docs.scipy.org/doc/scipy-dev/reference/generated/scipy.signal.savgol_filter.html#scipy-signal-savgol-filter)函数具有平滑信号的功能，该函数至少要提供三个参数：x, window_length, polyorder
+
+* x：需要平滑的信号向量，也可以是二维array形式，此时savgol_filter函数将array的每一行作为一个信号进行平滑处理，返回值是与输入矩阵具有相同shape的array
+* window_length：窗口大小，窗口大小必须是正奇数，并且窗口值越大返回信号越平滑
+* polyorder：该值必须是一个小于window_length的整数
+
+举例如下
+
+~~~python
+from numpy import *
+import matplotlib.pyplot as plt
+from scipy.signal import savgol_filter
+
+x = array([2, 2, 5, 2, 1, 0, 1, 4, 9])
+y=savgol_filter(x)
+plt.plot(x)
+plt.hold(True)
+plt.plot(y,'r--')
+plt.show()
+~~~
+
+效果如下
+![Alt text](/resources/images/python_signal_smoothing.png)

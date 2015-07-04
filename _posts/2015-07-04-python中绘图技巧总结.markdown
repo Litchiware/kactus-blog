@@ -1,0 +1,116 @@
+---
+layout: post
+title: "Python中绘图技巧总结"
+description: plotting graphs in Python
+categories: 编程语言
+published: true
+---
+
+##plotly绘图
+
+举例如下：
+
+~~~python
+import plotly.plotly as py
+from plotly.graph_objs import *
+import numpy as np
+tr = []
+tr.append(Scatter(
+    x = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000],
+    y = time_train, 
+    name = u'训练时间'
+))
+tr.append(Scatter(
+    x = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000],
+    y = time_test, 
+    name = u'测试时间'
+))
+data = Data(tr)
+plot_url = py.plot(data, filename='chart2')
+~~~
+
+##matplotlib中图像颜色设置
+
+matplotlib中颜色表示方法有三种：
+
+###约定的某些字符表示特定的颜色
+
+* b: blue
+* g: green
+* r: red
+* c: cyan
+* m: magenta
+* y: yellow
+* k: black
+* w: white
+
+###0-1之间的小数表示的灰度值
+
+比如color='0.5'，0表示黑色，1表示白色
+
+###html十六进制字符串
+
+color='B8B8B8'
+
+##matplotlib中设置图像x轴范围
+
+有时候为了显示效果好看，需要设置图像的x轴范围，需要注意的是在pyplot和axessubplot下设置x、y轴范围的函数是不一样的。pyplot下设置xlim、ylim的函数分别为xlim()、ylim()，在axessubplot下对应为set_xlim()、set_ylim()，举例如下
+
+~~~python
+import matplotlib.pyplot as plt
+ax=plt.subplot(2,1,1)
+ax.set_xlim((1,2))
+ax.plot([1,2],[3,4])
+ax=plt.subplot(2,1,2)
+ax.plot([1,2],[3,4])
+plt.show()
+~~~
+
+![Alt text](/resources/images/matplotlib_set_xlim.png)
+
+##绘制直方图
+
+python对绘制离散信号（array）直方图提供了相关函数调用，并且有两种绘制的方式；下面通过一个示例信号来说明
+
+### 信号举例
+
+首先用下面的代码产生一个均值为100，标准差为15的高斯白噪声
+
+~~~python
+import matplotlib.pyplot as plt
+import numpy as np
+
+mu, sigma = 100, 15
+x = mu + sigma * np.random.randn(10000)
+~~~
+
+### 直接调用matplotlib.pyplot.hist()函数绘制
+
+绘制代码如下
+
+~~~python
+plt.hist(x, bins = 50)
+plt.show()
+~~~
+
+绘制的效果如下
+
+![Alt text](/resources/images/matplotlib_histogram1.png)
+
+### numpy.histogram()函数+matplotlib.pyplot.bar()函数
+
+绘制代码如下
+
+~~~python
+hist, bins = np.histogram(x, bins=50)
+width = 0.6 * (bins[1] - bins[0])
+center = (bins[:-1] + bins[1:]) / 2
+plt.bar(center, hist, align='center', width=width)
+plt.show()
+~~~
+
+绘制的效果如下
+
+![Alt text](/resources/images/matplotlib_histogram2.png)
+
+可以看出，通过这两种方式绘制的直方图是完全一致的

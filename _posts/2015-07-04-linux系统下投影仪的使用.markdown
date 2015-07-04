@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Linux系统下投影仪的使用"
+description: using projector in Linux
+categories: 操作系统
+published: true
+---
+
+使用笔记本连接使用投影仪，需要注意下面两点：
+
+* 笔记本上有一个控制此项功能的开关功能键，需要打开，我的电脑是戴尔灵越14r，快捷键是fn+f1
+* 需要将本机的分辨率修改为投影仪支持的分辨率。插上VGA线，使用xrandr命令修改本机分辨率
+
+~~~ bash
+xrandr	#列出与本机连接的所有显示设备以及各自支持的分辨率
+xrandr -s 1024x768	#将本机的分辨率设置为1024x768（可以是投影仪所支持的任何分辨率）
+xrandr --output VGA-0 --auto --same-as LVDS #将投影仪的分辨率设置为与当前桌面相同，并且以同步显示模式运行
+~~~
