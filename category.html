@@ -1,0 +1,37 @@
+---
+title: Category
+permalink: category/
+profile: true
+---
+
+<script type="text/javascript">
+<!--
+    function toggle_visibility(className) {
+       var e = document.getElementsByClassName(className);
+       if(e[0].style.display == 'block')
+          e[0].style.display = 'none';
+       else
+          e[0].style.display = 'block';
+    }
+//-->
+</script>
+
+<ul id="post-list">
+    {% for category in site.categories %}
+        <li>
+            <a href="#" onclick="toggle_visibility('{{ category | first }}');"><span>{{ category | first }}</span></a>
+            <ul id="archive-list" class={{ category | first }} style="display: none;">
+            {% for posts in category %}
+                {% for post in posts %}
+                    <li>
+                        <a href='{{ post.url }}'><aside class="dates">{{ post.date | date:"%b %d" }}</aside></a>
+                        <a href='{{ post.url }}'>{{ post.title }} <h2>{{ post.description }}</h2></a>
+                    </li>
+                {% endfor %}
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+</ul>
+
+{% include footer.html %}

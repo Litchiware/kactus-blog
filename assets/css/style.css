@@ -370,8 +370,11 @@ img {
 /*=========================================
 Post List
 =========================================== */
-#post-list,#archive-list {
+#post-list {
 	margin-top: 100px;
+}
+#archive-list {
+        margin-top: 0px;
 }
 
 #post-list li,#archive-list li {
