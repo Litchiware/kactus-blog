@@ -1,0 +1,74 @@
+---
+layout: post
+title: "python中重新加载模块的方法"
+description: import an updated package in python
+categories: python
+published: true
+---
+
+# Python中重新加载模块的方法
+
+## 使用sys.modules.pop()的方法
+
+通过import xxx加载xxx.py文件后，如果修改了xxx.py文件，需要重新加载，那么在重新加载之前需要从字典变量sys.modules中将xxx包删除。
+
+~~~ python
+import sys
+sys.modules.pop('xxx')
+import xxx
+~~~
+
+## 使用reload()函数的方法
+
+该方法在python2和python3中的使用方法有所不同，在python2中，通过以下方式调用reload函数
+
+~~~python
+reload(xxx)
+~~~
+
+但是在python3中，reload函数被定义在了imp包下
+
+~~~python
+import imp
+imp.reload(xxx)
+~~~
+
+## 注意事项
+
+在向xxx.py文件中添加一些代码之后重新加载，使用两种方法的效果是一样的，但是如果在import xxx之后又删除了xxx.py中的一些东西，两种方法的效果就不一样了，例如：
+
+###第一个版本的funcs.py
+
+~~~ python
+def fun1():
+    print('hello, fun 1')
+    
+def fun2():
+    print('hello, fun 2')   
+~~~
+
+在python解释器或者ipython下运行以下命令
+
+~~~python
+import funcs
+funcs.fun1()
+funcs.fun2()
+~~~
+
+可以看到，fun1()和fun2()函数都正常执行了，此时删除funcs.py文件中fun2定义，得到：
+
+###修改之后的funcs.py
+
+~~~python
+def fun1():
+    print('hello, fun 1')
+~~~
+
+此时，运行以下命令
+
+~~~python
+reload(funcs)
+funcs.fun2()
+~~~
+
+可以看到fun2函数仍然能够正常执行，并输出hello, fun 2，也就是说reload(funcs)并没有从当前解释环境中真正删去func2的定义。相反，如果我们使用第一种方法重新加载funcs的话就没有上述问题存在。因此，推荐使用第一种方法重新加载模块

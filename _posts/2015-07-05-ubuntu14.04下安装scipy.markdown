@@ -1,0 +1,20 @@
+---
+layout: post
+title: "ubuntu14.04下安装scipy"
+description: install scipy on ubuntu14.04
+categories: ubuntu
+published: true
+---
+
+
+##安装依赖包
+
+~~~ bash
+sudo apt-get install python-dev libblas-dev liblapack-dev gfortran g++
+~~~
+
+##安装scipy
+
+~~~ bash
+sudo pip install scipy
+~~~

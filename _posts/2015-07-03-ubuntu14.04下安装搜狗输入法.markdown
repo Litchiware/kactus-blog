@@ -1,12 +1,10 @@
 ---
 layout: post
-title: "ubuntu下安装搜狗输入法"
-description: install sogou input method on ubuntu
-categories: 软件安装
+title: "ubuntu14.04下安装搜狗输入法"
+description: install sogou input method on ubuntu14.04
+categories: ubuntu
 published: true
 ---
-
-系统装的是英文版的vivid
 
 ## 安装fcitx
 

@@ -1,0 +1,51 @@
+---
+layout: post
+title: "python中将字符串转为整型"
+description: converting string to integer in python
+categories: python
+published: true
+---
+
+
+python中将字符串转为整型时，如果字符串本身不表示数值，那么程序会抛出异常（即使字符串表示的是浮点数也不能直接转换），举例如下：
+
+~~~python
+>>> int('2w')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '2w'
+>>> int('.2')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '.2'
+>>> int('2')
+2
+~~~
+
+另外，int将字符串转为整型时，还可以指定基数，例如
+
+~~~python
+>>> int('1001101',2)
+77
+>>> int(1001101,2)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: int() can't convert non-string with explicit base
+>>> int(1001101)
+1001101
+~~~
+
+可以使用int(float(string))将表示数值的字符串统一转为整型，避免在string表示浮点数时抛出异常，例如
+
+~~~python
+>>> int(float('-1.0'))
+-1
+>>> int(float('-1'))
+-1
+>>> int('-1')
+-1
+>>> int('-1.0')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '-1.0'
+~~~

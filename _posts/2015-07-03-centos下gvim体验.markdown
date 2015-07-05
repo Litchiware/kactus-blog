@@ -2,7 +2,7 @@
 layout: post
 title: "Centos下gvim体验"
 description: gvim using experience on Centos
-categories: 工具
+categories: vim
 published: true
 ---
 

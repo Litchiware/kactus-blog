@@ -1,0 +1,27 @@
+---
+layout: post
+title: "python中将元组类型转换为字典类型"
+description: convert tuple to dictionary in python
+categories: python
+published: true
+---
+
+
+有如下元组
+
+~~~python
+('x',1)
+~~~
+
+需要转换为字典类型
+
+~~~python
+{'x':1}
+~~~
+
+转换代码如下：
+
+~~~python
+dict([('x',1)])
+~~~
+

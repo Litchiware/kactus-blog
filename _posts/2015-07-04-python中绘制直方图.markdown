@@ -1,0 +1,52 @@
+---
+layout: post
+title: "python中绘制直方图"
+description: plotting histograms in python
+categories: python
+published: true
+---
+
+python对绘制离散信号（array）直方图提供了相关函数调用，并且有两种绘制的方式；下面通过一个示例信号来说明
+
+## 信号举例
+
+首先用下面的代码产生一个均值为100，标准差为15的高斯白噪声
+
+~~~python
+import matplotlib.pyplot as plt
+import numpy as np
+
+mu, sigma = 100, 15
+x = mu + sigma * np.random.randn(10000)
+~~~
+
+## 直接调用matplotlib.pyplot.hist()函数绘制
+
+绘制代码如下
+
+~~~python
+plt.hist(x, bins = 50)
+plt.show()
+~~~
+
+绘制的效果如下
+
+![Alt text](/resources/images/matplotlib_histogram1.png)
+
+## numpy.histogram()函数+matplotlib.pyplot.bar()函数
+
+绘制代码如下
+
+~~~python
+hist, bins = np.histogram(x, bins=50)
+width = 0.6 * (bins[1] - bins[0])
+center = (bins[:-1] + bins[1:]) / 2
+plt.bar(center, hist, align='center', width=width)
+plt.show()
+~~~
+
+绘制的效果如下
+
+![Alt text](/resources/images/matplotlib_histogram2.png)
+
+可以看出，通过这两种方式绘制的直方图是完全一致的

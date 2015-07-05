@@ -1,0 +1,30 @@
+---
+layout: post
+title: "python中字典求最大项"
+description: obtain the maximum item of a dictionary
+categories: python
+published: true
+---
+
+
+##普通字典求最大项
+
+举例如下
+
+~~~python
+>>> d = {'a':1000, 'b':3000, 'c':100}
+>>> import operator
+>>> max(d.iteritems(),key=operator.itemgetter(1))
+('b', 3000)
+~~~
+
+##字典的值为列表的情况
+
+这种情况下，上面的代码仍然是有效的，并且是按照列表的第一个元素排序
+
+~~~python
+>>> d = {'a':[1000,18], 'b':[3000,2], 'c': [100,10]}
+>>> import operator
+>>> max(d.iteritems(),key=operator.itemgetter(1))
+('b', [3000, 2])
+~~~

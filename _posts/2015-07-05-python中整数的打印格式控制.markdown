@@ -1,0 +1,30 @@
+---
+layout: post
+title: "python中整数的打印格式控制"
+description: printing format of the integers
+categories: python
+published: true
+---
+
+
+使用print函数打印整数时，可以用下面的方式控制整数位数
+
+~~~python
+>>> a=5
+>>> print('%4d' %a)
+   5
+>>> print('%04d' %a)
+0005
+>>> print('% 4d' %a)
+   5
+~~~
+
+上面的过程也可以通过格式化字符串来实现
+
+~~~python
+>>> print('{0:04}'.format(a))
+0005
+>>> print('{0:04d}'.format(a))
+0005
+~~~
+

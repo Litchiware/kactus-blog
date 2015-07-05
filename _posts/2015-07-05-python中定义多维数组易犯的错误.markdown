@@ -1,0 +1,44 @@
+---
+layout: post
+title: "python中定义多维数组易犯的错误"
+description: common errors when defining a multidimentional list
+categories: python
+published: true
+---
+
+
+在python中，可以通过以下方式定义并初始化一个二维数组
+
+~~~python
+>>> arr=[[0,0]]*3
+>>> arr
+[[0, 0], [0, 0], [0, 0]]
+~~~
+
+下面我们尝试修改arr中的元素
+
+~~~python
+>>> arr[0][0]=1
+>>> arr
+[[1, 0], [1, 0], [1, 0]]
+~~~
+
+很明显，当我们给arr[0][0]赋值时，arr[1][0]、arr[2][0]也随之更改了；这是因为列表arr中包含的三个子列表指向的是同一个列表实例，所以arr中的三个元素是同步变化的。可以通过调用id()来查看object的内存地址来验证上面的结论
+
+~~~python
+>>> id(arr[0])
+29960240
+>>> id(arr[1])
+29960240
+>>> id(arr[2])
+29960240
+~~~
+
+下面的代码生成的列表可以达到我们预期的目标
+
+~~~python
+result = []
+for i in range(3):
+    result.append(list([0,0]))
+~~~
+

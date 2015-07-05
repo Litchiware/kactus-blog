@@ -1,17 +1,24 @@
 ---
-title:  "git使用方法总结"
+title:  "ubuntu下安装和使用git"
 description: git commands, workflows and some tricks
-date:   2015-06-29 13:10:00
-categories: 工具
+date:   2015-06-29
+categories: git
 ---
 
-##Github添加ssh key
+
+##安装git
+
+直接使用ubuntu下的apt软件管理工具安装
+
+~~~bash
+sudo apt-get install git
+~~~
+
+##添加ssh key验证
 
 >可以参考Github Help的这篇文章[Generating SSH keys](https://help.github.com/articles/generating-ssh-keys/)
 
-## git使用基本命令
-
-### 配置git属性
+## 配置git属性
 
 配置git的用户名，以及邮箱
 
@@ -32,7 +39,7 @@ categories: 工具
 	git config --global alias.ci="commit -a -v"
 ~~~
 
-### 建立本地版本库
+## 建立本地版本库
 
 创建一个项目proj，并且在该项目所在目录下建立版本库
 
@@ -52,41 +59,11 @@ categories: 工具
 
 在调用git ci之后，会打开vim编辑器，在其中写上版本信息，保存退出即可提交
 
-### 同步到github
+## 同步到github
 
 上面所做的任何备份都保存在本地，为了数据的安全以及方便共享信息，可以将仓库推送到github
 
 ~~~ bash
 	git remote add origin git@github.com:Litchiware/litchi-note.git
 	git push -u origin master
-~~~
-	
-## 常用的文件操作
-
-### 向版本库中增加一个文件
-
-~~~ bash
-	git add file
-~~~
-
-### 从版本库中删除一个文件
-
-~~~ bash
-	git rm file
-~~~
-
-### 移动文件位置
-
-可以采用两种方式，一种是直接使用git的移动命令
-
-~~~ bash
-	git mv file dir
-~~~
-
-另一种是先移动，然后用git add 和git rm 更新版本库
-
-~~~ bash
-	mv  file dir
-	git add dir/file
-	git rm file
 ~~~

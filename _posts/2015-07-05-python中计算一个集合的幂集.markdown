@@ -1,0 +1,30 @@
+---
+layout: post
+title: "python中计算一个集合的幂集"
+description: obtain the power set of a set
+categories: python
+published: true
+---
+
+
+幂集是一个集合的所有子集组成的集合，在Python中可以通过下面的方式计算一个集合（可以是由set、list或tuple等类型表示的）的幂集
+
+~~~python
+from itertools import chain, combinations
+s=('a','b','c')
+list(chain.from_iterable(combinations(s,n) for n in range(len(s)+1)))
+~~~
+
+返回结果如下
+
+~~~python
+[(),
+ ('a',),
+ ('b',),
+ ('c',),
+ ('a', 'b'),
+ ('a', 'c'),
+ ('b', 'c'),
+ ('a', 'b', 'c')]
+~~~
+

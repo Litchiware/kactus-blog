@@ -1,8 +1,8 @@
 ---
 title: "vim 中的快捷键总结"
 description: vim shortcuts, configurations, interesting plugins...
-date:   2015-06-29 16:22:00
-categories: 工具
+date:   2015-06-29
+categories: vim
 ---
 
 ## 普通模式下的快捷键

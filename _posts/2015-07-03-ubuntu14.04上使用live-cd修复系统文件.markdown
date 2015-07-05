@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "使用live cd修复系统文件"
-description: use live cd to restore system files on ubuntu
-categories: 操作系统
+title: "ubuntu14.04上使用live cd修复系统文件"
+description: use live cd to restore system files on ubuntu14.04
+categories: ubuntu
 published: true
 ---
 
@@ -19,27 +19,27 @@ published: true
 使用live cd启动，打开终端，用parted命令确定文件系统所在的磁盘及分区
 
 ~~~ bash
-	litchiware@trusty:~$ sudo parted
-	[sudo] password for litchiware: 
-	GNU Parted 2.3
-	Using /dev/sda
-	Welcome to GNU Parted! Type 'help' to view a list of commands.
-	(parted) p
-	Model: ATA ST1000DM003-1CH1 (scsi)
-	Disk /dev/sda: 1000GB
-	Sector size (logical/physical): 512B/4096B
-	Partition Table: gpt
+litchiware@trusty:~$ sudo parted
+[sudo] password for litchiware: 
+GNU Parted 2.3
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) p
+Model: ATA ST1000DM003-1CH1 (scsi)
+Disk /dev/sda: 1000GB
+Sector size (logical/physical): 512B/4096B
+Partition Table: gpt
 
-	Number  Start   End     Size    File system     Name                  Flags
-	 1      1049kB  538MB   537MB   fat32           EFI System Partition  boot
-	 2      538MB   983GB   983GB   ext4
-	 3      983GB   1000GB  17.1GB  linux-swap(v1)
+Number  Start   End     Size    File system     Name                  Flags
+ 1      1049kB  538MB   537MB   fat32           EFI System Partition  boot
+ 2      538MB   983GB   983GB   ext4
+ 3      983GB   1000GB  17.1GB  linux-swap(v1)
 ~~~
 
 从上面列表中各分区的大小及文件类型可以看出，文件系统是在/dev/sda2上的，挂载该分区
 
 ~~~ bash
-	sudo mount /dev/sda2 /mnt
+sudo mount /dev/sda2 /mnt
 ~~~
 
 进入/mnt/usr/share/X11/xkb/symbols/下，恢复文件pc即可

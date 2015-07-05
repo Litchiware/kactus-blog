@@ -1,13 +1,11 @@
 ---
 layout: post
-title: "Python中的信号处理函数"
-description: signal processing with python
-categories: 编程语言
+title: "python中的信号平滑函数"
+description: signal smmothing functions in python
+categories: python
 published: true
 ---
 
-
-##平滑信号
 
 函数[scipy.signal.savgol_filter()](http://docs.scipy.org/doc/scipy-dev/reference/generated/scipy.signal.savgol_filter.html#scipy-signal-savgol-filter)函数具有平滑信号的功能，该函数至少要提供三个参数：x, window_length, polyorder
 

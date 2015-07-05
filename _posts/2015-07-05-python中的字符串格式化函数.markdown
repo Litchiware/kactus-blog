@@ -1,0 +1,35 @@
+---
+layout: post
+title: "python中的字符串格式化函数"
+description: string formatting functions in python
+categories: python
+published: true
+---
+
+
+字符串的格式设置函数有string.center(n, ch)，string.ljust(n, ch)，string.rjust(n, ch)，s.format(vars)等
+
+## 用法说明
+
+以string.rjust(n, ch)为例说明字符串格式设置函数的用法：该函数的作用是返回一个长度为n的字符串，如果string长度小于n，那么在string的左边用字符ch来补全
+
+## 代码举例
+
+下面是在python3下用函数string.rjust(n, ch)编写的一段代码，功能是输出乘法表：
+
+~~~python
+for i in range(1, 10):
+    for j in range(1, 10):
+        if j >= i:
+            prod = i * j
+            string = str(i) + '*' + str(j) + '=' + str(prod)
+            print(string.rjust(8, ' '), end = '')
+        else:
+            print(' ' * 8, end = '')
+    print()
+~~~
+
+运行效果如下（python2中会报错，因为python2中不支持print函数的以上用法）：
+
+![Alt Text](/resources/images/multiply_table.png)
+

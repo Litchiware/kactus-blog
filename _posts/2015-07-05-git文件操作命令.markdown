@@ -1,0 +1,38 @@
+---
+layout: post
+title: "git文件操作命令"
+description: adding, removing, and moving files in git
+categories: git
+published: true
+---
+
+
+## 常用的文件操作
+
+### 向版本库中增加一个文件
+
+~~~ bash
+git add file
+~~~
+
+### 从版本库中删除一个文件
+
+~~~ bash
+git rm file
+~~~
+
+### 移动文件位置
+
+可以采用两种方式，一种是直接使用git的移动命令
+
+~~~ bash
+git mv file dir
+~~~
+
+另一种是先移动，然后用git add 和git rm 更新版本库
+
+~~~ bash
+mv  file dir
+git add dir/file
+git rm file
+~~~

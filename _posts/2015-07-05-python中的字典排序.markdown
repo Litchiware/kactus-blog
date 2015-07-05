@@ -1,0 +1,17 @@
+---
+layout: post
+title: "python中的字典排序"
+description: sorting dictionaries in python
+categories: python
+published: true
+---
+
+
+##字典排序
+
+在python中，可以通过以下语句对字典变量按值从大到小排序
+
+~~~python
+import operator
+sortedDic=sorted(dic.items(), key = operator.itemgetter(1), reverse= True)
+~~~

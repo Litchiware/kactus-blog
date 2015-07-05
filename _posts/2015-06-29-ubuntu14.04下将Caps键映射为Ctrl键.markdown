@@ -1,8 +1,8 @@
 ---
-title: "如何将Caps键映射为Ctrl键"
+layout: post
+title: "ubuntu14.04下将Caps键映射为Ctrl键"
 description: remap keyboard keys on ubuntu14.04
-date:   2015-06-29 20:34:00
-categories: 操作系统
+categories: ubuntu
 ---
 
 在终端输入如下命令可以达到我们想要的效果：
@@ -15,8 +15,4 @@ categories: 操作系统
 
 但是在重启电脑之后，该项设置就失效了，为此我们需要将该命令添加到系统启动项中。
 
-在dash中输入startup，打开startup applications preferences，添加一个启动项，如下图所示
-
-![Caps Lock remap](/resources/images/caps_lock_remap.png)
-
-命令一栏中填入setxkbmap -option ctrl:nocaps即可
+在dash中输入startup，打开startup applications preferences，为该命令添加一个启动项，命令一栏中填入setxkbmap -option ctrl:nocaps

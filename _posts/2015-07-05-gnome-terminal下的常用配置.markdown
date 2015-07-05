@@ -1,10 +1,11 @@
 ---
 layout: post
-title: "终端使用技巧总结"
+title: "gnome-terminal下的常用配置"
 description: using terminal efficiently
-categories: 工具
+categories: linux命令行
 published: true
 ---
+
 
 ##采用vim的输入风格
 
@@ -20,30 +21,22 @@ set editing-mode vi
 在/bin/目录下新建一个文件，名称任意，比如lerminal
 
 ~~~ bash
-	sudo vim /bin/lerminal 
+sudo vim /bin/lerminal 
 ~~~
 
 文件内容如下：
 
 ~~~ bash
-	gnome-terminal --full-screen --hide-menubar
+gnome-terminal --full-screen --hide-menubar
 ~~~
 
 为该文件添加可执行权限
 
 ~~~ bash
-	sudo chmod +x /bin/lerminal
+sudo chmod +x /bin/lerminal
 ~~~
 	
-现在在终端中运行命令lerminal即可打开一个全屏的终端，我们也可以为该命令设置系统快捷键
-
-打开`System settings-->keyboard-->shortcuts`
-
-添加快捷键：`Alt+Shift+T`
-
-![lerminal_shortcut](/resources/images/lerminal_shortcut.png)
-
-现在可以在任何位置按下`Alt+Shift+T`来打开一个全屏的终端了。
+现在在终端中运行命令lerminal即可打开一个全屏的终端，我们也可以为该命令设置系统快捷键：`System settings-->keyboard-->shortcuts`，为命令`lerminal`添加快捷键`Alt+Shift+T`，现在可以在任何位置按下`Alt+Shift+T`来打开一个全屏的终端了。
 
 ##修改终端配色
 

@@ -1,0 +1,117 @@
+---
+layout: post
+title: "python中函数参数的定义及传递过程"
+description: defining functions with different types of arguments in python
+categories: python
+published: true
+---
+
+
+##F(arg1,arg2,...)
+
+这是最常见的定义方式，一个函数可以定义任意个数的参数，各参数间用逗号分隔；在调用的时候需要提供相同个数的值，而且顺序必须相同，例如：
+
+~~~python
+def add(a,b):
+    return a+b
+~~~
+
+测试效果如下：
+
+~~~python
+>>> add(1,2)
+3
+>>> add(b=2,a=1)
+3
+~~~
+
+##F(arg1,arg2=value2,...)
+
+这种方式提供了默认值，但是没提供默认值的参数必须在所有提供了默认值的参数的前面，例如：
+
+~~~python
+def add(a,b=1):
+    return a+b
+~~~
+
+测试效果如下：
+
+~~~python
+>>> add(1,2)
+>>> 3
+>>>  add(1)
+2
+~~~
+
+##F(*arg1)
+
+上面两个方式形参个数要求与实参个数相等，但有时候不确定有多少个参数，此时可以在形参名前加上*，表示函数的参数数目不定。这种情况下，传入的参数在函数内部被存放在以参数名为标识符的tuple中
+
+~~~python
+def a(*x):
+    if len(x)==0:
+        print('None')
+    else:
+        print(x)
+~~~
+
+测试效果如下
+
+~~~python
+>>> a()
+None
+>>> a(1)
+(1,)
+>>> a(1,2,3)
+(1, 2, 3)
+~~~
+
+##F(**arg1)
+
+参数前加两个*表示传入的参数在函数内部将被存放在标识符为arg1的dictionary中，这种情况下函数调用的方法需采用arg1=value1, arg2=value2的形式
+
+~~~python
+def a(**x):
+    if len(x)==0:
+        print('None')
+    else:
+        print(x)
+~~~
+
+测试效果如下
+
+~~~python
+>>> a()
+None
+>>> a(x=1,y=2)
+{'y': 2, 'x': 1}
+~~~
+
+# Python中函数参数的解析过程
+
+定义一个如下所示的函数
+
+~~~python
+def test(a,b=1,*c,**d):
+    print(a,b,c,d)
+~~~
+
+传入参数的解析过程如下：先解析a，然后解析b，再解析c，也就是把c赋值为多出来的arg这种形式的参数组成的tuple，最后把剩下的key=value这种形式的参数组成一个dictionary传给d，测试效果如下
+
+~~~python
+>>> test(1)
+(1, 1, (), {})
+>>> test(1,2)
+(1, 2, (), {})
+>>> test(1,2,3)
+(1, 2, (3,), {})
+>>> test(1,2,3,4)
+(1, 2, (3, 4), {})
+>>> test(1,2,3,4,name='Tom')
+(1, 2, (3, 4), {'name': 'Tom'})
+>>> test(a=1,b=2)
+(1, 2, (), {})
+>>> test(1,c=2)
+(1, 1, (), {'c': 2})
+~~~
+

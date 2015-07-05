@@ -2,7 +2,7 @@
 layout: post
 title: "常用的第三方Python包"
 description: common third-party packages of Python
-categories: 编程语言
+categories: python
 published: true
 ---
 

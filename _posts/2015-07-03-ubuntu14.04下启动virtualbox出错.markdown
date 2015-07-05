@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "ubuntu下启动virtualbox出错"
+title: "ubuntu14.04下启动virtualbox出错"
 description: solve the problem "kernel drive not installed" when starting virtualbox on ubuntu
+categories: ubuntu
 published: true
 ---
 
@@ -23,18 +24,18 @@ published: true
 按照20楼的做法，我先执行了下面的命令
 
 ~~~ bash
-	sudo rm /etc/init.d/vbox*
+sudo rm /etc/init.d/vbox*
 
 然后卸载virtualbox（可以放心，卸载过程不会删除~/VirtualBox VMs的）
 
 ~~~ bash
-	sudo apt-get purge virtualbox
+sudo apt-get purge virtualbox
 ~~~
 
 最后在重新安装
 
 ~~~ bash
-	sudo apt-get install virtualbox
+sudo apt-get install virtualbox
 ~~~
 
 安装成功后就可以正常打开虚拟机了。

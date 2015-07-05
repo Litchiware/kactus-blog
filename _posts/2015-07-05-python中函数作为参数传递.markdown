@@ -1,0 +1,27 @@
+---
+layout: post
+title: "python中函数作为参数传递"
+description: passing functions with arguments to another function in python
+categories: python
+published: true
+---
+
+
+有时候需要将一个函数作为另一个函数的参数进行传递，从而使程序具有更高的可扩展性，下面是一个说明这种用法的例子
+
+~~~python
+def perform(fun, *args):
+    fun(*args)
+def f(*args):
+    for arg in args:
+	    print(arg)
+perform(f,'Hello','World')
+~~~
+
+上面代码的执行结果如下
+
+~~~python
+Hello
+World
+~~~
+

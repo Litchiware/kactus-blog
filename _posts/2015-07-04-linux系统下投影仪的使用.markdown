@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Linux系统下投影仪的使用"
-description: using projector in Linux
-categories: 操作系统
+title: "centos7下投影仪的使用"
+description: using projector on centos7
+categories: centos
 published: true
 ---
 

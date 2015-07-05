@@ -1,0 +1,37 @@
+---
+layout: post
+title: "python中字符串切片的负数索引"
+description: negetive index of strings in python
+categories: python
+published: true
+---
+
+
+## 举例说明
+
+先看一个字符串切片负数索引的例子
+
+~~~python
+>>> food='apple pie'
+>>> food[-9:-4]
+'apple'
+>>> food[:-4]
+'apple'
+>>> food[-3:0]
+''
+>>> food[-3:1]
+''
+>>> food[1:-2]
+'pple p'
+>>> food[-10:1]
+'a'
+>>> food[0:20]
+'apple pie'
+~~~
+
+## 规律总结
+
+- string[m: n]的计算过程如下：先找到索引为n-1的字符，然后向左直到索引为m的字符，作为切片的返回值
+- 如果n=0或者n-1表示的字符在m表示的字符的左边，那么切片将返回空字符串
+- 即使索引超出范围，也不会报错，将返回指定索引范围内的最长切片
+

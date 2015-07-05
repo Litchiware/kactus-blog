@@ -2,7 +2,7 @@
 layout: post
 title: "Ctags使用方法总结"
 description: use ctags for navigating large source code projects
-categories: 工具
+categories: vim
 published: true
 ---
 
