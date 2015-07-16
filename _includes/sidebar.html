@@ -1,0 +1,9 @@
+<nav class="js-menu sliding-menu-content">
+  <ul>
+    <li class="section"><h2>Categories</h2></li>
+    {% for category in site.categories %}
+    <li><a href="#" >{{ category | first }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+<div class="js-menu-screen menu-screen"></div>

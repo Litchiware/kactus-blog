@@ -33,4 +33,30 @@ function retina() {
 	});
 };
  
-$(document).ready(retina);
+function sidebar() {
+    $("#category-link").click(function(){
+        $("nav.js-menu.sliding-menu-content").addClass("is-visible");
+        $("div.js-menu-screen.menu-screen").addClass("is-visible");
+    });
+    $("div.js-menu-screen.menu-screen").click(function(){
+        $("nav.js-menu.sliding-menu-content").removeClass("is-visible")
+        $(this).removeClass('is-visible');
+    });
+    $(".js-menu.sliding-menu-content li a").click(function(){
+        var category = $(this).text();
+        $("#post-list li").each(function(index, value){
+            var child$ = $(this).children(":first");
+            if(child$.attr("category") != category){
+                $(this).css('display', 'none');
+            }
+            else{
+                $(this).css('display', 'block');
+            }
+        });
+    });
+};
+
+$(document).ready(function(){
+    retina();
+    sidebar();
+});
