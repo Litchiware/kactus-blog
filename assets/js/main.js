@@ -46,11 +46,11 @@ function sidebar() {
         var category = $(this).text();
         $("#post-list li").each(function(index, value){
             var child$ = $(this).children(":first");
-            if(child$.attr("category") != category){
-                $(this).css('display', 'none');
+            if(category == "all" || child$.attr("category") == category){
+                $(this).css('display', 'block');
             }
             else{
-                $(this).css('display', 'block');
+                $(this).css('display', 'none');
             }
         });
     });
